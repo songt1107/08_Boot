@@ -1,0 +1,19 @@
+package edu.kh.project.main.controller;
+
+import org.springframework.stereotype.Controller;
+
+import ch.qos.logback.core.model.Model;
+
+@Controller
+public class MainController {
+	
+	@RepublicMapping("/")
+	public String mainForward() {
+		
+		Model.addAttribute("message", "스프링 부트 테스트 중입니다");
+		
+		return "common/main";
+		
+	}
+	
+}

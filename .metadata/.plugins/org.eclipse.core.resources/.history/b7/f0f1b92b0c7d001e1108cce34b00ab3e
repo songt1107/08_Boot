@@ -1,0 +1,11 @@
+package edu.kh.project.main.controller;
+
+@Controller
+public class MainController {
+	
+	@RepublicMapping("/")
+	public String mainForward() {
+		
+	}
+	
+}
