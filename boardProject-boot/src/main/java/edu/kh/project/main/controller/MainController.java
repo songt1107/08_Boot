@@ -12,7 +12,7 @@ public class MainController {
 	@RequestMapping("/")
 	public String mainForward(Model model) {
 		
-		model.addAttribute("message", "메시지 출력 테스트입니다.");
+		model.addAttribute("name", "홍길동");
 		
 		// Spring MVC : /webapp/WEB-INF/views/common/main.jsp
 		

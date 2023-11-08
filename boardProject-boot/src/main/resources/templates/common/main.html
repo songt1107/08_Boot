@@ -5,9 +5,7 @@
 	<meta charset="UTF-8">
 	<title>프로젝트</title>
 	
-	<link rel="stylesheet" href="/css/main-style.css">
 	
-	<script src="https://kit.fontawesome.com/e5fede6c09.js" crossorigin="anonymous"></script>
 </head>
 <body>
 	<main>
@@ -40,29 +38,36 @@
             	<ul id="result2">
             	</ul>
             	
-            	<h3>회원 정보 조회(아이디 검색)</h1>
-
-				<form action="/selectUser">
+            	<h3>삼항 연산자</h3>
+            	<!-- ${name} 값이 있으면 true, 없으면 false -->
+            	<p th:text="${name} ? ${name} : '이름 없음'"></p>
+            	<p th:text="${name2} ? ${name2} : '이름 없음'"></p>
 				
-					<input type="text" name="userId" placeholder="회원 아이디 입력">
-					
-					<button>조회</button>
+				<h3>Elvis 연산자</h3>
+				<p th:text="${name} ?: '이름 없음'"></p>
+				<p th:text="${name2} ?: '이름 없음'"></p>
 				
-				</form>
-            	
+				<h3>No-Operation</h3>
+				<p th:text="${name} ?:_">(태그에작성)이름 없음</p>
+				<p th:text="${name2} ?:_">(태그에작성)이름 없음</p>         	
             
             </section>
 
             <!-- 아이디/비밀번호/로그인버튼 영역-->
             <section class="content-2">
-            		
-		                <form action="/member/login" method="post" name="login-form" id="loginFrm">
+            			
+            			
+            		<!-- 로그인 X -->
+            		<th:block th:unless="${session.loginMember}">
+            			
+            			
+		                <form th:action="@{/member/login}" method="post" name="login-form" id="loginFrm">
 		
 		                    <fieldset class="id-pw-area">
 		                        <section>
 		                            <input type="text" name="memberEmail" placeholder="이메일"
 		                            	autocomplete="off" 
-		                            	value="${cookie.saveId.value}"
+		                            	value=""
 		                            	>
 		                            <input type="password" name="memberPw" placeholder="비밀번호">
 		                        </section>
@@ -74,41 +79,47 @@
 		
 		                    <label>
 		                    
-		                    	
-		                        <input type="checkbox" name="saveId" ${save}> 아이디 저장
+		                        <input type="checkbox" name="saveId"> 아이디 저장
 		                        
 		                    </label>
 		
 		                    <!-- 회원가입/ Id/pw 찾기 영역 -->
 		                    <section class="signup-find-area">
-		                        <a href="/member/signUp">회원가입</a>
+		                        <a th:href="@{/member/signUp}">회원가입</a>
 		                        <span>|</span>
-		                        <a href="#">ID/PW 찾기</a>
+		                        <a th:href="@{#}">ID/PW 찾기</a>
 		                    </section>
 		
 		                </form>
 		             
+		            </th:block>
             		
-            		<c:otherwise>
+            		<!-- 로그인 O -->
+            		<!-- request Scope는 그냥 써도 인식함.
+            			session Scope는 session.loginMember 이런식으로 session.을 꼭 붙여야한다.	
+					-->
+            		
+            		<th:block th:if="${session.loginMember}">
             			<article class="login-area">
             				
-            				<a href="/myPage/profile">
+            				<a th:href="@{/myPage/profile}">
             					
-                                    <img src="/resources/images/user.png" id="memberProfile">
+                                    <img th:src="@{/images/user.png}" id="memberProfile">
                                
             					
             				</a>
             				
             				<div class="my-info">
             					<div>
-            						<a href="/myPage/info" id="nickname">${sessionScope.loginMember.memberNickname}</a>
-            						<a href="/member/logout" id="logoutBtn">로그아웃</a>
+            						<a th:href="@{/myPage/info}" id="nickname">[[${session.loginMember.memberNickname}]]</a>
+            						<a th:href="@{/member/logout}" id="logoutBtn">로그아웃</a>
             					</div>
             					
             					<p></p>
             				</div>
             			
             			</article>
+            		</th:block>
             		
             
             </section>
@@ -118,11 +129,11 @@
 	
     </main>
 	
-	<jsp:include page="/WEB-INF/views/common/footer.jsp" />
+	<th:block th:replace="~{common/footer}"></th:block>
 	
-    <!--<script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>-->
+    <!--<script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>--> 
 
-	<script src="/resources/js/main.js"></script>
+	<script th:src="@{/js/main.js}"></script>
 	
 </body>
 </html>

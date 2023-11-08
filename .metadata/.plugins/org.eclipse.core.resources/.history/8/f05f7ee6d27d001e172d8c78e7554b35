@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+	<!-- 현재 HTML 문서에 타임리프 문법을 사용한다고 선언 -->
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>프로젝트</title>
+	
+	
+</head>
+<body>
+	<main>
+      
+		<!-- th:block 
+			- html 태그가 아닌 단순히 타임리프를 쓰기 위한 태그가 필요할 때 사용
+			- 타임리프 해석 시 다른 타임리프 수행 후 사라짐
+		-->
+        <th:block th:replace="~{common/header}"></th:block>
+
+
+        <section class="content">
+            <section class="content-1">
+            	
+            	<h3>로그인된 회원 정보</h3>
+            	${sessionScope.loginMember}
+            	
+            	
+            	<h3>닉네임이 일치하는 회원의 전화번호 조회</h3>
+            	
+            	<input type="text" id="inputNickname">
+            	<button id="btn1">조회</button>
+            	<h4 id="result1"></h4>
+            	
+            	<hr>
+            	
+            	<h3>이메일을 입력받아 일치하는 회원의 정보를 조회</h3>
+            	<input type="text" id="inputEmail">
+            	<button id="btn2">조회</button>
+            	<ul id="result2">
+            	</ul>
+            	
+            	<h3>회원 정보 조회(아이디 검색)</h1>
+
+				<form action="/selectUser">
+				
+					<input type="text" name="userId" placeholder="회원 아이디 입력">
+					
+					<button>조회</button>
+				
+				</form>
+            	
+            
+            </section>
+
+            <!-- 아이디/비밀번호/로그인버튼 영역-->
+            <section class="content-2">
+            		
+		                <form th:action="@{/member/login}" method="post" name="login-form" id="loginFrm">
+		
+		                    <fieldset class="id-pw-area">
+		                        <section>
+		                            <input type="text" name="memberEmail" placeholder="이메일"
+		                            	autocomplete="off" 
+		                            	value="${cookie.saveId.value}"
+		                            	>
+		                            <input type="password" name="memberPw" placeholder="비밀번호">
+		                        </section>
+		
+		                        <section>
+		                            <button>로그인</button>
+		                        </section>
+		                    </fieldset>
+		
+		                    <label>
+		                    
+		                    	
+		                        <input type="checkbox" name="saveId" ${save}> 아이디 저장
+		                        
+		                    </label>
+		
+		                    <!-- 회원가입/ Id/pw 찾기 영역 -->
+		                    <section class="signup-find-area">
+		                        <a href="/member/signUp">회원가입</a>
+		                        <span>|</span>
+		                        <a href="#">ID/PW 찾기</a>
+		                    </section>
+		
+		                </form>
+		             
+            		
+            		<c:otherwise>
+            			<article class="login-area">
+            				
+            				<a href="/myPage/profile">
+            					
+                                    <img src="/resources/images/user.png" id="memberProfile">
+                               
+            					
+            				</a>
+            				
+            				<div class="my-info">
+            					<div>
+            						<a href="/myPage/info" id="nickname">${sessionScope.loginMember.memberNickname}</a>
+            						<a href="/member/logout" id="logoutBtn">로그아웃</a>
+            					</div>
+            					
+            					<p></p>
+            				</div>
+            			
+            			</article>
+            		
+            
+            </section>
+
+        </section>
+	
+	
+    </main>
+	
+	<th:block th:replace="~{common/footer}"></th:block>
+	
+    <!--<script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>--> 
+
+	<script src="/resources/js/main.js"></script>
+	
+</body>
+</html>

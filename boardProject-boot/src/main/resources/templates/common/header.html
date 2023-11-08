@@ -1,12 +1,13 @@
 <link rel="stylesheet" th:href="@{/css/main-style.css}">
 
-
+<script th:src="@{https://kit.fontawesome.com/e5fede6c09.js}" crossorigin="anonymous"></script>
+	
 <header>
 
      <!-- 클릭 시 메인페이지로 이동하는 로고 -->
      <section>
-         <a href="/">
-             <img src="/resources/images/logo.jpg" id="homeLogo">
+         <a th:href="@{/}">
+             <img th:src="@{/images/logo.jpg}" id="homeLogo">
          </a>
      </section>
 
@@ -15,7 +16,7 @@
          <section class="search-area">
 
              <!-- form 내부 input 태그 값을 서버 또는 페이지로 전달 -->
-             <form action="/search" method="GET" name="search-form">
+             <form th:action="@{/search}" method="GET" name="search-form">
 
                  <!-- fieldset : form 내부에서 input을 종류별로 묶는 용도로 자주 사용 -->
                  <fieldset>
@@ -41,13 +42,13 @@
 
  <nav>
      <ul>
-    	 <%--
+    	 
          <li><a href="#">공지사항</a></li>
          <li><a href="#">자유게시판</a></li>
          <li><a href="#">질문게시판</a></li>
          <li><a href="#">FAQ</a></li>
          <li><a href="#">1:1문의</a></li>
-          --%>
+         
           
           
           
