@@ -10,17 +10,17 @@ import org.springframework.stereotype.Repository;
 public class EmailDAO {
 
 	@Autowired
-	private EmailMapper emailMapper;
+	private EmailMapper mapper;
 
 	public int updateAuthKey(Map<String, String> map) {
-		return emailMapper.updateAuthKey(map);
+		return mapper.updateAuthKey(map);
 	}
 
 	public int insertAuthKey(Map<String, String> map) {
-		return emailMapper.insertAuthKey(map);
+		return mapper.insertAuthKey(map);
 	}
 	
 	public int checkAuthKey(Map<String, Object> paramMap) {
-		return emailMapper.checkAuthKey(paramMap);
+		return mapper.checkAuthKey(paramMap);
 	}
 }

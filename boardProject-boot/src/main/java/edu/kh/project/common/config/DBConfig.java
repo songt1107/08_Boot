@@ -18,23 +18,22 @@ import com.zaxxer.hikari.HikariDataSource;
 
 @Configuration // @Configuration : 구성
 // 스프링 어플리케이션을 구성하기 위한 설정용 Bean 생성 클래스
-// @PropertySource : properties 파일의 내용을 이용하겠다는 어노테이션
-// 다른 properties도 추가하고 싶으면 어노테이션을 계속 추가
+
 @PropertySource("classpath:/config.properties")
-public class DBConfig{
+public class DBConfig {
 	
+	//import org.springframework.context.ApplicationContext;
 	@Autowired
-	private ApplicationContext applicationContext;
+	private ApplicationContext applicationContext; // application scope 객체
 	
 	@Bean
 	// - 개발자가 수동으로 bean을 등록하는 어노테이션
 	// - @Bean 어노테이션이 작성된 메서드에서 반환된 객체는
 	// Spring Container가 관리함
 	
-	// @ConfigurationProperties(prefix = "spring.datasource.hikari")
+	@ConfigurationProperties(prefix = "spring.datasource.hikari")
 	// properties 파일의 내용을 이용해서 생성되는 bean을 설정하는 어노테이션
 	// prefix를 지정하여 spring.datasource.hikari으로 시작하는 설정을 모두 적용
-	@ConfigurationProperties(prefix = "spring.datasource.hikari")
 	public HikariConfig hikariConfig() {
 		return new HikariConfig();
 	}
@@ -42,17 +41,19 @@ public class DBConfig{
 	@Bean
 	public DataSource dataSource(HikariConfig config) {
 							// 매개변수에 bean이 자동으로 주입된다(DI)
+		
 		DataSource dataSource = new HikariDataSource(config);
 		return dataSource;
 	}
 	
+	
 	////////////////////////////Mybatis 설정 추가 ////////////////////////////
+	
 	//SqlSessionFactory : SqlSession을 만드는 객체
 	@Bean
 	public SqlSessionFactory sessionFactory(DataSource dataSource) throws Exception{
 		
 		SqlSessionFactoryBean sessionFactoryBean = new SqlSessionFactoryBean();
-		
 		sessionFactoryBean.setDataSource(dataSource);
 		
 		//매퍼 파일이 모여있는 경로 지정
@@ -75,11 +76,11 @@ public class DBConfig{
 	public SqlSessionTemplate sqlSessionTemplate(SqlSessionFactory sessionFactory) {
 		return new SqlSessionTemplate(sessionFactory);
 	}
-	
 	//DataSourceTransactionManager : 트랜잭션 매니저
 	@Bean
 	public DataSourceTransactionManager dataSourceTransactionManager(DataSource dataSource) {
 		return new DataSourceTransactionManager(dataSource);
 	}
-
+	
+	
 }

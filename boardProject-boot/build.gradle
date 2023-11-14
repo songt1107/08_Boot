@@ -28,7 +28,7 @@ dependencies {
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	
+
 	// Spring Boot JDBC 관련 라이브러리 모음
 	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
 	
@@ -37,7 +37,7 @@ dependencies {
 	
 	// @ConfigurationProperties 사용 가능
 	annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
-	
+
 	// Spring - Mybatis 관련 라이브러리 모음
 	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.2'
 	
@@ -48,8 +48,8 @@ dependencies {
 	// 이메일
 	// https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-mail
 	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-mail', version: '3.1.0'
-	
 }
+
 
 tasks.named('test') {
 	useJUnitPlatform()

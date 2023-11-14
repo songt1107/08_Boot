@@ -7,6 +7,7 @@ import edu.kh.project.member.model.dto.Member;
 @Mapper
 public interface AjaxMapper {
 
+	
 	/** 닉네임으로 전화번호 조회
 	 * @param nickname
 	 * @return
@@ -30,5 +31,4 @@ public interface AjaxMapper {
 	 * @return
 	 */
 	int checkNickname(String nickname);
-	
 }

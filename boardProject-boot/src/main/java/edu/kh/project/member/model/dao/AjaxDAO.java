@@ -11,7 +11,7 @@ public class AjaxDAO {
 
 	@Autowired
 	private AjaxMapper mapper;
-	
+
 	// 닉네임을 전화번호 조회
 	public String selectMemberTel(String nickname) {
 		

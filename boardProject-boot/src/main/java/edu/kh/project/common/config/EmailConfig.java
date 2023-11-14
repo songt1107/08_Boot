@@ -12,7 +12,7 @@ import org.springframework.mail.javamail.JavaMailSenderImpl;
 @Configuration
 @PropertySource("classpath:/config.properties")
 public class EmailConfig {
-
+	
 	// @Value : properties 파일에서 key가 일치하는 부분의 value를 얻어와 대입
 	@Value("${spring.mail.username}")
 	private String username;
@@ -36,13 +36,15 @@ public class EmailConfig {
 		prop.setProperty("mail.smtp.auth", "true");
 		prop.setProperty("mail.smtp.starttls.enable", "true");
 		prop.setProperty("mail.debug", "true");
-		prop.setProperty("mail.smtp.ssl.trust", "smtp.gmail.com");
-		prop.setProperty("mail.smtp.ssl.protocols", "TLSv1.2");
+		prop.setProperty("mail.smtp.ssl.trust","smtp.gmail.com");
+		prop.setProperty("mail.smtp.ssl.protocols","TLSv1.2");
 		
 		mailSender.setJavaMailProperties(prop);
 		
+		
 		return mailSender; // 반환된 객체가 bean 등록됨
 	}
+	
 	
 	
 }
