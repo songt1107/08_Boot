@@ -94,10 +94,10 @@
 				<!-- request Scope는 그냥 써도 인식함. 
 					session Scope는 session.loginMember 이런식으로 session.을 꼭 붙여야한다.
 				-->
-				<th:block th:if="${session.loginMember}" th:object="${session.loginMember}">
+				<th:block th:if="${session.loginMember}">
 					<article class="login-area">
 						<a th:href="@{/myPage/profile}">
-							<img th:src="*{profileImage}" id="memberProfile">
+							<img th:src="@{/images/user.png}" id="memberProfile">
 						</a>
 						
 						<div class="my-info">

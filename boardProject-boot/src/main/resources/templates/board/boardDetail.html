@@ -1,0 +1,161 @@
+<!DOCTYPE html>-
+<html lang="ko" xmlns="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${boardName}">게시판 이름</title>
+
+    <link rel="stylesheet" th:href="@{/css/board/boardDetail-style.css}">
+    <link rel="stylesheet" th:href="@{/css/board/comment-style.css}">
+
+    <script th:src="@{https://kit.fontawesome.com/f7459b8054.js}" crossorigin="anonymous"></script>
+</head>
+<body>
+    <main>
+        <th:block th:replace="~{common/header}"></th:block>
+
+        <section class="board-detail" th:object="${board}">  
+            <!-- 제목 -->
+            <h1 class="board-title" th:utext="|*{boardTitle}  <span> - ${boardName}</span>|"></h1>
+
+            <!-- 프로필 + 닉네임 + 작성일 + 조회수 -->
+            <div class="board-header">
+                <div class="board-writer">
+
+                    <!-- 프로필 이미지 -->
+                    	<!-- 프로필 이미지가 없을 경우 기본 이미지 출력 -->
+		                <img th:unless="*{profileImage}" th:src="@{/images/user.png}">
+                    	
+                    	<!-- 프로필 이미지가 있을 경우 등록한 이미지 출력 -->
+                    	<img th:if="*{profileImage}" th:src="*{profileImage}" />
+                    
+                    <span th:text="*{memberNickname}">닉네임</span>
+
+                    
+                    <!-- 좋아요 하트 -->
+                    <span class="like-area">
+                    
+                    	<!-- 좋아요 누른적이 없다, 로그인 하지 않았다 -->
+						<!-- th:classappend : 클래스 추가 -->
+	                    <i class="fa-heart" 
+							th:classappend="${likeCheck} ? fa-solid : fa-regular"
+						id="boardLike"></i>
+
+                        <span th:text="*{likeCount}">좋아요 개수</span>
+                    </span>
+
+                </div>
+
+                <div class="board-info">
+                    <p> <span>작성일</span> [[*{boardCreateDate}]] </p> 
+
+                    <!-- 수정한 게시글인 경우 -->
+                    <p th:if="*{boardUpdateDate}"> 
+						<span>마지막 수정일</span> [[*{boardUpdateDate}]]
+					</p>
+					
+                    <p> <span>조회수</span> [[${board.readCount}]] </p>                    
+                </div>
+            </div>
+
+            <!-- 이미지가 있을 경우 -->
+            <th:block th:if="${#lists.size(board.imageList) > 0}">
+            
+	            <!-- 썸네일 영역(썸네일이 있을 경우) -->
+				<!--
+					- 이미지는 IMG_ORDER 오름차순 정렬된다
+					- IMG_ORDER의 값이 0인 이미지 썸네일이다
+					-> imageList에 썸네일이 있다면
+						조회되었을때 IMG_ORDER가 0인 이미지가
+						imageList[0]에 저장되어 있을 것이다.
+				 -->
+				 <th:block th:if="${thumbnail}">
+		            <h5>썸네일</h5>
+		            <div class="img-box">
+		                <div class="boardImg thumbnail">
+		                    <img th:src="|${thumbnail.imagePath}${thumbnail.imageReName}|">
+
+		                    <a th:href="|${thumbnail.imagePath}${thumbnail.imageReName}|" 
+		                    	th:download="${thumbnail.imageOriginal}"
+		                    >다운로드</a>         
+		                </div>
+		            </div>
+				 </th:block>
+            
+				 <!-- fn:length(board.imageList) : imageList의 길이 반환 -->
+				<!-- 일반 이미지가 있는 경우 -->
+				<th:block th:if="${#lists.size(board.imageList) > start}">
+				
+					<!-- 업로드 이미지 영역 -->
+					<h5>업로드 이미지</h5>
+					<div class="img-box">
+					
+						<th:block th:each="i : ${#numbers.sequence(start, #lists.size(board.ImageList)-1, 1)}">
+							<div class="boardImg"
+								th:with="path=|${board.imageList[i].imagePath}${board.imageList[i].imageReName}|">
+								
+								<img th:src="${path}">
+								<a th:href="${path}" th:download="${board.imageList[i].imageOriginal}">다운로드</a>                
+							</div>
+						</th:block>
+						
+	              
+	            	</div>
+
+            	</th:block>
+			
+            </th:block>
+            
+            
+            <!-- 내용 -->
+            <div class="board-content">[[${board.boardContent}]]</div>
+
+
+            <!-- 버튼 영역-->
+            <div class="board-btn-area">
+            
+                <!-- 로그인한 회원과 게시글 작성자 번호가 같은 경우-->
+				<!-- 객체?.필드명 : 안전 탐색 연산자(Safe Navigation Operator) 
+					 객체가 null인지 탐색해서 null이 아닐 경우 필드 접근
+					 (NullPointerException 방지)
+				-->
+				<!-- <th:block th:if="${session.loginMember != null and session.loginMember.memberNo == board.memberNo}"></th:block> -->
+            	<th:block th:if="${session.loginMember?.memberNo == board.memberNo}">
+	                <button id="updateBtn">수정</button>
+	                <button id="deleteBtn">삭제</button>
+            	</th:block>
+
+
+                <button id="goToListBtn">목록으로</button>
+            </div>
+
+
+        </section>
+
+        <!-- 댓글 include-->
+        <th:block th:replace="~{board/comment}"></th:block>
+    </main>
+
+    <th:block th:replace="~{common/footer}"></th:block>
+
+	<script th:inline="javascript">
+		console.log(/*[[${board}]]*/ "board객체");
+
+		const boardNo = /*[[${board.boardNo}]]*/ "게시글번호";
+		
+		const loginMemberNo = /*[[${session.loginMember?.memberNo}]]*/ "로그인 회원번호";
+		
+		if(loginMemberNo == null) loginMemberNo = "";
+
+
+		console.log(boardNo);
+		console.log(loginMemberNo);
+	
+	</script>
+	
+	<script th:src="@{/js/board/boardDetail.js}"></script>
+	<script th:src="@{/js/board/comment.js}"></script>
+
+</body>
+</html>

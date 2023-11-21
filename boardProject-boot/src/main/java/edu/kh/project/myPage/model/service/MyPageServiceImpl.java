@@ -18,11 +18,13 @@ import edu.kh.project.myPage.model.dao.MyPageMapper;
 @PropertySource("classpath:/config.properties")
 public class MyPageServiceImpl implements MyPageService{
 	
-	@Value("${my.member.webPath}")
+	@Value("${my.member.webpath}")
 	private String webPath;
 	
 	@Value("${my.member.location}")
 	private String filePath;
+	
+	
 	
 	@Autowired
 	private MyPageMapper mapper;
@@ -89,6 +91,7 @@ public class MyPageServiceImpl implements MyPageService{
 		
 		
 		return result;
+		
 		
 		
 		

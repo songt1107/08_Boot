@@ -15,10 +15,10 @@ import jakarta.servlet.MultipartConfigElement;
 
 @Configuration
 @PropertySource("classpath:/config.properties")
-public class FileUploadConfig implements WebMvcConfigurer {
-	// WebMvcConfigurer : 스프링에서 웹 관련 요청/응답 모든 설정들을 할 수 있는 메서드를
-	// 기본 제공해주는 인터페이스
-	
+public class FileUploadConfig implements WebMvcConfigurer{
+		// WebMvcConfigurer : 스프링에서 웹 관련 요청/응답 모든 설정들을 할 수 있는 메서드를
+		// 기본 제공해주는 인터페이스
+
 	// 파일을 hdd에 저장하기 전 임시로 가지고 있을 메모리 용량
 	@Value("${spring.servlet.multipart.file-size-threshold}")
 	private long fileSizethreshold;
@@ -48,9 +48,9 @@ public class FileUploadConfig implements WebMvcConfigurer {
 	
 	
 	@Bean
-	public MultipartResolver multipartResolver() {
+	public MultipartResolver mutipartResolver() {
 		// MultipartResolver : 파일은 파일로, 텍스트는 텍스트로 자동 구분
-		return new StandardServletMultipartResolver();	
+		return new StandardServletMultipartResolver();
 	}
 
 
@@ -58,16 +58,17 @@ public class FileUploadConfig implements WebMvcConfigurer {
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
 		
-		// /images/ 로 시작되는 요청
+		//  /images/ 로 시작되는 요청
 		String webPath = "/images/**";
-				
-		// 실제로 자원이 저장되어있는 로컬 경로
+		
+		// 실제로 자원이 저장되어 있는 로컬 경로
 		String resourcePath = "file:///C:/uploadImages/";
 		
 		// /images/로 시작하는 요청이 오면, C:/uploadImages/ 와 연결
 		registry.addResourceHandler(webPath).addResourceLocations(resourcePath);
-		
 	}
+	
+	
 	
 	
 	

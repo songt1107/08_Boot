@@ -32,7 +32,16 @@ public class MyPageController {
 	
 	// 내 정보 페이지로 이동
 	@GetMapping("/info")
-	public String info() {
+	public String info(HttpSession session) {
+		
+		// 웹 접근 경로
+		String webPath = "/images/member/";
+				
+		// 실제로 이미지 파일이 저장되어야하는 서버컴퓨터 경로
+		String filePath = session.getServletContext().getRealPath(webPath);
+		
+		System.out.println("filePath:: " + filePath);
+		
 		return "myPage/myPage-info";
 	}
 	
@@ -248,6 +257,12 @@ public class MyPageController {
 		return path;
 	}
 		
+	
+	
+	
+	
+	
+	
 	
 	
 	
